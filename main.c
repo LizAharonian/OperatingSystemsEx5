@@ -31,15 +31,25 @@ int main() {
     char enteredChar;
 
     while ((enteredChar = getch())!='q') {
-        printf("%c",enteredChar );
-        if (write(Pipe[1],&enteredChar,1) ==FAIL) {
-            handleFailure();
+        if (enteredChar=='a'||enteredChar=='s'||enteredChar=='d'||enteredChar=='w') {
+            printf("%c", enteredChar);
+            if (write(Pipe[1], &enteredChar, 1) == FAIL) {
+                handleFailure();
+            }
+
+            if (kill(sonPid, SIGUSR2) == FAIL) {
+                handleFailure();
+            }
         }
 
-        if (kill(sonPid,SIGUSR2)==FAIL) {
-            handleFailure();
-        }
+    }
+    //write last time
+    if (write(Pipe[1], &enteredChar, 1) == FAIL) {
+        handleFailure();
+    }
 
+    if (kill(sonPid, SIGUSR2) == FAIL) {
+        handleFailure();
     }
 
     printf("Hello, World!\n");
