@@ -2,6 +2,10 @@
 // Created by liz on 11/06/18.
 //
 
+//
+// Created by liz on 11/06/18.
+//
+
 #include <printf.h>
 #include <signal.h>
 #include <stdio.h>
@@ -13,10 +17,15 @@
 void sigHandle(int num);
 
 
-/*int main() {
-    while (1) {
+/*
+int main() {
 
-        signal(SIGUSR2, sigHandle);
+    while (1) {
+        printf("process son\n");
+signal(SIGUSR2, sigHandle);
+        pause();
+        
+
     }
 
 
@@ -24,15 +33,14 @@ void sigHandle(int num);
     return 0;
 }*/
 
+
+
 void sigHandle(int num)
 {
+    printf("enter sigHandle\n");
+
     char enteredChar;
     scanf("%c", &enteredChar);
-    printf("enter sigHandle\n");
-    /*char buf[8]="hello";
-    int count=0;
-    buf[5]=(char)(counter+'0');
-    count=write(fda[1],buf,6);
-    counter++;*/
+    //printf("the char is:","%c",enteredChar);
     signal(SIGUSR2,sigHandle);
 }
