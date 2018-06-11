@@ -59,8 +59,8 @@ int callExecv(int Pipe[ARR_SIZE]) {
     if (pid == 0) {  // son
         /* Force our stdin to be the read side of the pipe we made */
         dup2(Pipe[0], 0);
-        close(Pipe[0]);
-        close(Pipe[1]);
+        /*close(Pipe[0]);
+        close(Pipe[1]);*/
         char* args[SPACE] = {"./draw.out",NULL};
 
         /* Execute our command */
@@ -69,11 +69,11 @@ int callExecv(int Pipe[ARR_SIZE]) {
         handleFailure();
     } else {   //father
         //dup2( Pipe[1], 1 );
-        dup2( Pipe[1], 1 );
+        //dup2( Pipe[1], 1 );
 
         /* Close off all the pipes we no longer need */
-        close( Pipe[0] );
-        close( Pipe[1] );
+        /*close( Pipe[0] );
+        close( Pipe[1] );*/
         return pid;
 
     }
