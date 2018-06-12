@@ -84,7 +84,7 @@ int main() {
     //initialize new player
     Point point;
     point.x = 0;
-    point.y = 10;
+    point.y = SIZE/2;
     player.point = point;
     player.state = LAY;
     //define sigAlarm
@@ -114,7 +114,7 @@ void changeState() {
         }
         if (player.point.y==1) {
             player.point.y+=1;
-        } else if (player.point.y==18) {
+        } else if (player.point.y==SIZE-2) {
             player.point.y-=1;
         }
     }
@@ -124,11 +124,11 @@ void changeState() {
 
 void moveDown() {
     if (player.state==LAY) {
-        if(player.point.x<=17) {
+        if(player.point.x<=SIZE-3) {
             player.point.x+=1;
         }
     } else if(player.state==STAND) {
-        if(player.point.x<=16) {
+        if(player.point.x<=SIZE-4) {
             player.point.x+=1;
         }
     }
@@ -136,11 +136,11 @@ void moveDown() {
 
 void moveRight() {
     if (player.state==LAY) {
-        if(player.point.y<=16) {
+        if(player.point.y<=SIZE-4) {
             player.point.y+=1;
         }
     } else if(player.state==STAND) {
-        if(player.point.y<=17) {
+        if(player.point.y<=SIZE-3) {
             player.point.y+=1;
         }
     }
@@ -175,7 +175,7 @@ void printBoard() {
     for (i = 0; i <SIZE ; ++i) {
         int j;
         for (j = 0; j < SIZE; ++j) {
-            if(i==19||j==0||j==19){
+            if(i==SIZE-1||j==0||j==SIZE-1){
                 gameBoard[i][j]='*';
             }
             if (i==player.point.x&&j==player.point.y) {
@@ -200,16 +200,16 @@ void printBoard() {
     }
 
     if (player.state == LAY) {
-        if(player.point.x>=18) {
+        if(player.point.x>=SIZE-2) {
             player.point.x =0;
-            player.point.y=10;
+            player.point.y=SIZE/2;
             printBoard();
         }
 
     } else if (player.state==STAND) {
-        if(player.point.x>=17) {
+        if(player.point.x>=SIZE-3) {
             player.point.x =0;
-            player.point.y=10;
+            player.point.y=SIZE/2;
             player.state=LAY;
             printBoard();
         }
