@@ -80,7 +80,7 @@ void alarm_hand();
 
 Player player;
 
-int main() {
+/*int main() {
     //initialize new player
     Point point;
     point.x = 0;
@@ -97,7 +97,7 @@ int main() {
         //wait for signals
         pause();
     }
-}
+}*/
 
 void alarm_hand (){
     alarm(1);
@@ -216,10 +216,10 @@ void printBoard() {
     }
 }
 
-void handleFailure() {
+/*void handleFailure() {
     write(STDERR, ERROR, ERROR_SIZE);
     exit(FAIL);
-}
+}*/
 
 void sigHandle()
 {
