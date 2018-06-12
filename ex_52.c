@@ -66,7 +66,7 @@ int main() {
     point.y = 10;
     player.point = point;
     player.state = LAY;
-    printBoard(player);
+   // printBoard();
     if (system("clear")==FAIL) {
         handleFailure();
     }
@@ -79,21 +79,32 @@ int main() {
     }
 }
 
+
 void alarm_hand (int sig){
     alarm(1);
     signal(SIGALRM,alarm_hand);
     moveDown();
-    printBoard(player);
+    printBoard();
 
 }
 
 
 void changeState() {
-    player.state =(player.state == LAY) ?STAND:LAY;
-    if (player.point.x ==0) {
-        player.point.x+=1;
+    if(player.state==STAND) {
+        if (player.point.x == 0) {
+            player.point.x += 1;
 
+        }
+        if (player.point.y==1) {
+            player.point.y+=1;
+        } else if (player.point.y==18) {
+            player.point.y-=1;
+        }
     }
+
+
+    player.state =(player.state == LAY) ? STAND:LAY;
+
 
 }
 
@@ -229,7 +240,7 @@ void sigHandle(int num)
             exit(0);
             break;
     }
-    printBoard(player);
+    printBoard();
 
     signal(SIGUSR2,sigHandle);
 }
