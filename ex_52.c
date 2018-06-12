@@ -1,86 +1,105 @@
-//
-// Created by liz on 11/06/18.
-//
-
-//
-// Created by liz on 11/06/18.
-//
-
+/**
+ * Liz Aharonian.
+ * 316584960.
+ */
 #include <printf.h>
 #include <signal.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <termios.h>
-#include <wait.h>
 #define SIZE 20
 #define FAIL -1
-#define COMMAND1 "draw.out"
 #define FAIL -1
-#define TRUE 1
-#define FALSE 0
-#define SPACE 32
-#define A 65
-#define Z 90
 #define ARR_SIZE 2
 #define ERROR "Error in system call\n"
 #define STDERR 2
 #define ERROR_SIZE 21
 
-void sigHandle(int num);
-char enteredChar;
+//enum
+enum State {STAND, LAY};
 
-
+//structs
 typedef struct Point {
     int x;
     int y;
 }Point;
-enum State {STAND, LAY};
 
 typedef struct Player {
     Point point;
     enum State state;
-
-
 }Player;
+
+/**
+ * sigHandle function.
+ * scans the char and moves the player.
+ */
+void sigHandle();
+
+/**
+ * handleFailure function.
+ * prints error and exits the program.
+ */
+
 void handleFailure();
+
+/**
+ * printBoard function.
+ * prints the board.
+ */
 void printBoard();
 
+/**
+ * moveRight function.
+ * moves the game player right.
+ */
 void moveRight();
 
+/**
+ * moveDown function.
+ * moves the player down.
+ */
 void moveDown();
 
+/**
+ * moveLeft function.
+ * moves the player left.
+ */
+void moveLeft();
+
+/**
+ * changeState function.
+ * changes the state of the player.
+ */
 void changeState();
-void alarm_hand (int sig);
 
-//global
+/**
+ * alarm_hand function.
+ * moves the player down every second.
+ */
+void alarm_hand();
+
 Player player;
-
 
 int main() {
     //initialize new player
-    enteredChar = ' ';
     Point point;
     point.x = 0;
     point.y = 10;
     player.point = point;
     player.state = LAY;
-   // printBoard();
-    if (system("clear")==FAIL) {
-        handleFailure();
-    }
-
-    signal(SIGALRM,alarm_hand);
+    //define sigAlarm
+    signal(SIGALRM, alarm_hand);
+    //call alarm_hand every second
     alarm(1);
+    //define SIGUSR2
     signal(SIGUSR2, sigHandle);
     while (1) {
+        //wait for signals
         pause();
     }
 }
 
-
-void alarm_hand (int sig){
+void alarm_hand (){
     alarm(1);
     signal(SIGALRM,alarm_hand);
     moveDown();
@@ -88,12 +107,10 @@ void alarm_hand (int sig){
 
 }
 
-
 void changeState() {
     if(player.state==STAND) {
         if (player.point.x == 0) {
             player.point.x += 1;
-
         }
         if (player.point.y==1) {
             player.point.y+=1;
@@ -101,11 +118,8 @@ void changeState() {
             player.point.y-=1;
         }
     }
-
-
+    //change state
     player.state =(player.state == LAY) ? STAND:LAY;
-
-
 }
 
 void moveDown() {
@@ -144,12 +158,11 @@ void moveLeft() {
     }
 }
 
-//todo:make sure enter this function with x and y bigger then 1!!!
 void printBoard() {
     if (system("clear")==FAIL) {
         handleFailure();
     }
-
+    //initialize new clear board
     char gameBoard[SIZE][SIZE];
     int i;
     for (i = 0; i <SIZE ; ++i) {
@@ -158,7 +171,7 @@ void printBoard() {
             gameBoard[i][j] = ' ';
         }
     }
-
+    //initialize the board and player
     for (i = 0; i <SIZE ; ++i) {
         int j;
         for (j = 0; j < SIZE; ++j) {
@@ -177,7 +190,7 @@ void printBoard() {
             }
         }
     }
-
+    //print the board
     for (i = 0; i <SIZE ; ++i) {
         int j;
         for (j = 0; j < SIZE; ++j) {
@@ -203,29 +216,19 @@ void printBoard() {
     }
 }
 
-/**
- * handleFailure function.
- * prints error and exits the program.
- */
-
 void handleFailure() {
     write(STDERR, ERROR, ERROR_SIZE);
     exit(FAIL);
 }
 
-
-
-
-
-
-void sigHandle(int num)
+void sigHandle()
 {
     char enteredChar;
+    //scan the char from the pipe
     scanf("%c", &enteredChar);
     switch(enteredChar) {
         case 'a':
             moveLeft();
-
             break;
         case 'd':
             moveRight();
@@ -238,9 +241,8 @@ void sigHandle(int num)
             break;
         case 'q':
             exit(0);
-            break;
     }
     printBoard();
-
+    //define the signal again
     signal(SIGUSR2,sigHandle);
 }
