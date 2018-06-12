@@ -32,7 +32,6 @@ int main() {
 
     while ((enteredChar = getch())!='q') {
         if (enteredChar=='a'||enteredChar=='s'||enteredChar=='d'||enteredChar=='w') {
-            printf("%c", enteredChar);
             if (write(Pipe[1], &enteredChar, 1) == FAIL) {
                 handleFailure();
             }
@@ -52,7 +51,6 @@ int main() {
         handleFailure();
     }
 
-    printf("Hello, World!\n");
     return 0;
 }
 
